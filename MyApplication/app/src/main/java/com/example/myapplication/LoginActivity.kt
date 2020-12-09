@@ -9,6 +9,8 @@ import android.util.Base64
 import android.util.Log
 import android.widget.Toast
 import com.facebook.AccessToken
+//import com.amazonaws.mobileconnectors.cognitoauth.tokens.AccessToken
+//import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -175,13 +177,13 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
     }
-    override fun onStart() {
-        super.onStart()
-
-        //자동 로그인 설정
-        moveMainPage(auth?.currentUser)
-
-    }
+//    override fun onStart() {
+//        super.onStart()
+//
+//        //자동 로그인 설정
+//        moveMainPage(auth?.currentUser)
+//
+//    }
     fun moveMainPage(user:FirebaseUser?){
         if(user!=null){
             startActivity(Intent(this, MainActivity::class.java))

@@ -24,12 +24,12 @@
             tools:text="User Name" />
     </LinearLayout>
     <!-- Content ImageView -->
-    <ImageView
-        android:id="@+id/detailviewitem_imageview_content"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:scaleType="fitXY"
-        android:src="@color/com_facebook_blue" />
+<!--    <ImageView-->
+<!--        android:id="@+id/detailviewitem_imageview_content"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="250dp"-->
+<!--        android:scaleType="fitXY"-->
+<!--        android:src="@color/com_facebook_blue" />-->
 
     <!-- favorite & comment -->
     <LinearLayout

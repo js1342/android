@@ -6,10 +6,15 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.amplifyframework.AmplifyException
+import com.amplifyframework.auth.AuthProvider
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.core.Amplify
 import com.example.myapplication.navigation.*
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -76,7 +81,20 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         setContentView(R.layout.activity_main)
         bottom_navigation.setOnNavigationItemSelectedListener(this)
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),1)
-
+        try {
+            // Add this line, to include the Auth plugin.
+            Amplify.addPlugin(AWSCognitoAuthPlugin())
+            Amplify.configure(applicationContext)
+            Log.i("Tutorial", "Initialized Amplify")
+        } catch (failure: AmplifyException) {
+            Log.e("Tutorial", "Could not initialize Amplify", failure)
+        }
+        Amplify.Auth.signInWithSocialWebUI(
+            AuthProvider.google(),
+            this,
+            { result -> Log.i("AuthQuickstart", result.toString()) },
+            { error -> Log.e("AuthQuickstart", error.toString()) }
+        )
 
 
         //set default screen
@@ -96,7 +114,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 var map = HashMap<String,Any>()
                 map["image"] = uri.toString()
                 FirebaseFirestore.getInstance().collection("profileImages").document(uid).set(map)
-
+            if (requestCode == AWSCognitoAuthPlugin.WEB_UI_SIGN_IN_ACTIVITY_CODE) {
+                Amplify.Auth.handleWebUISignInResponse(data)}
             }
         }
     }
